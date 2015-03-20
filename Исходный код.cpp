@@ -14,6 +14,7 @@ int main()
 	}
 	for (int i = 0; i < 3; ++i)
 		cout << str[i] << endl;
+	cout << "Number of voters 1 Street: " << str[0]->getnuminhabitants();
 
 	cout << endl << "After" << endl;
 
@@ -24,5 +25,6 @@ int main()
 	str[2]->delhouse(3);
 	for (int i = 0; i < 3; ++i)
 		cout << str[i] << endl;
+	cout << "Number of voters 1 Street: " << str[0]->getnuminhabitants();
 	return 0;
 }
