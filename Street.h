@@ -1,23 +1,23 @@
 #include "House.h"
 #include "Container.h"
 
-class street
+class Street:public List<House>
 {
 	int number;
 	int houses_num;
-	list *HouseList;
 	bool repair;
 public:
-	street();
-	street(int, bool);
-	~street();
+	Street();
+	Street(int, bool);
+	~Street();
 
-	void addhouse(house *,int);
-	void delhouse(int);
-	void ChangeAllStreet(int,bool);
-	int getnumber();
-	int getnuminhabitants();
-	house *SearchHouse(int);
+	void add(const House&);
+	void del(int);
+	bool has(int);
+	void changeallstreet(int,bool);
+	const int getnumber();
+	const int getnuminhabitants();
+	House searchhouse(int);
 
-	friend ostream & operator <<(ostream &,street*);
+	friend std::ostream & operator <<(std::ostream &,Street*);
 };

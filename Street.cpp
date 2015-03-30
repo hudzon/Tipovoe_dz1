@@ -1,96 +1,114 @@
 #include "Street.h"
 
-street::street()
+Street::Street() : List<House>(0)
 {
 	number = 0;
 	houses_num = 0;
-	HouseList = new list(new element(0,0));
 	repair = false;
+	
 }
 
-street::street(int number, bool repair)
+Street::Street(int number, bool repair) :List<House>(0)
 {
 	this->number = number;
 	houses_num = 0;
-	HouseList = new list(new element(0, 0));
 	this->repair = repair;
 }
 
-street::~street()
-{
-	number = 0;
-	houses_num = 0;
-	delete HouseList;
-	repair = false;
-}
+Street::~Street(){}
 
-void street::addhouse(house* ph, int i)
-{
-	HouseList->add(i, (void*)ph);
-	++houses_num;
-}
-
-void street::delhouse(int i)
-{
-	HouseList->del((void*)SearchHouse(i));
-	--houses_num;
-}
-
-void street::ChangeAllStreet(int number, bool repair)
+void Street::changeallstreet(int number, bool repair)
 {
 	this->number = number;
 	this->repair = repair;
 }
 
-int street::getnumber()
+const int Street::getnumber()
 {
 	return number;
 }
 
-int street::getnuminhabitants()
+const int Street::getnuminhabitants()
 {
 	int s = 0;
-	house *h;
-	list p = *HouseList;
+	House *h;
 	
-	if (&p)
-	while (p.getcur())
+	if (cur)
+	while (cur)
 	{
-		h = (house*)p.getcur()->getp();
-		s += h->GetInhabitant();
-		p.setcur(p.getcur()->getnext());
+		h = &cur->getp();
+		s += h->getinhabitant();
+		cur=cur->getnext();
 	}
 
+	cur = first->getnext();
 	return s;
 }
 
 
-house *street::SearchHouse(int i)
+House Street::searchhouse(int i)
 {
-	list p = *HouseList;
-	house *h = (house*)p.getcur()->getp();
+	House h(0, 0);
 
-	while (h->GetNum()!=i)
+	do
 	{
-		p.setcur(p.getcur()->getnext());
-		h = (house*)p.getcur()->getp();
-	}
+		h = cur->getp();
+		cur = cur->getnext();
+	} while ((h.getnum() != i)&&(cur));
 
+	if (h.getnum()!=i)
+		std::cout << std::endl << number <<
+		" street doesn't have " << i << " house " << std::endl;
+
+	cur = first->getnext();
 	return h;
 }
 
-ostream & operator <<(ostream & osout, street * str)
+void Street::add(const House& h)
 {
-	list p = *str->HouseList;
+	House h1(h);
+	if (!has(h1.getnum()))
+		List<House>::add(h);
+	else std::cout << h1.getnum() <<
+		" house wasn't added, because " << number << " street already has it" << std::endl;
+}
 
+void Street::del(int i)
+{
+	if (has(i))
+		List<House>::del(searchhouse(i));
+	else std::cout << i <<
+		" house wasn't deleted, because " << number << " street doesn't have it" << std::endl;
+}
+
+bool Street::has(int i)
+{
+	House h(0, 0);
+
+	do
+	{
+		h = cur->getp();
+		cur = cur->getnext();
+	} while ((h.getnum() != i) && (cur));
+
+	cur = first->getnext();
+	if (h.getnum()==i)
+		return true;
+	else return false;
+}
+
+std::ostream & operator <<(std::ostream & osout, Street * str)
+{
 	osout << "Street " << str->number << " Houses num: " << str->houses_num << " Repair: ";
 	if(str->repair)
-		osout<< "true"<< endl;
-	else osout << "false" << endl;
-	while ((house*)p.getcur())
+		osout<< "true"<< std::endl;
+	else osout << "false" << std::endl;
+	while (str->cur)
 	{
-		osout << "     " << (house*)p.getcur()->getp();
-		p.setcur(p.getcur()->getnext());
+		osout << "     " << &str->cur->getp();
+		str->cur=str->cur->getnext();
 	}
+
+	str->cur = str->first->getnext();
 	return osout;
 }

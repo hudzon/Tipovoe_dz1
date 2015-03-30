@@ -1,55 +1,25 @@
 #include "Container.h"
 
-element::element(void *pp, element *next)
-{
-	this->pp = pp;
-	this->next = next;
-}
-
-element::~element()
-{
-	delete pp, next;
-}
-
-element * element::getnext()
-{
-	return next;
-}
-
-void element::setnext(element *next)
-{
-	this->next = next;
-}
-
-void *element::getp()
-{
-	return pp;
-}
-
-///////////////////////////////////////////////////
-
-list::list(element *first)
+template<class T>
+List<T>::List(Element<T> *first)
 {
 	this->first = first;
 	cur = first;
 }
 
-void list::add(int i, void *pp)
+template<class T>
+void List<T>::add(T pp)
 {
-	cur = first; 
 
-	for (int j = 0; j < i - 1; j++)
-		cur = cur->getnext();
-	element *tmp = new element(pp, cur->getnext());
+	Element<T> *tmp = new Element<T>(pp, cur->getnext());
 	cur->setnext(tmp);
 
 	cur = first->getnext();
 }
 
-void list::del(void *el)
+template<class T>
+void List<T>::del(T el)
 {
-	cur = first;
-
 	while (cur->getnext()->getp() != el)
 	{
 		cur = cur->getnext();
@@ -57,14 +27,4 @@ void list::del(void *el)
 	cur->setnext(cur->getnext()->getnext());
 
 	cur = first->getnext();
-}
-
-element *list::getcur()
-{
-	return cur;
-}
-
-void list::setcur(element *cur)
-{
-	this->cur = cur;
 }

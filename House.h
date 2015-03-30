@@ -1,7 +1,6 @@
 #include <iostream>
-using namespace std;
 
-class house
+class House
 {
 	int number;
 	int level;
@@ -9,16 +8,19 @@ class house
 	bool repair;
 
 public:
-	house();
-	house(int, int, int, bool);
-	house(int, int);
-	~house();
+	House(const House&);
+	House(int number, int level, int inhabitant, bool repair);
+	House(int number, int level);
+	~House();
 
-	void ChangeAllHouse(int,int,bool);
-	void Print();
-	int GetInhabitant();
-	int GetNum();
+	void changeallhouse(int,int,bool);
+	void print();
+	const int getinhabitant();
+	void setinhabitant(int);
+	const int getnum();
+	void setnum(int);
 
-	friend ostream & operator <<(ostream&,house*);
-	house& operator =(house&);
+	friend std::ostream & operator <<(std::ostream&,House*);
+	House& operator =(House&);
+	bool operator ==(House&);
 };

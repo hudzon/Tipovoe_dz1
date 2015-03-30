@@ -1,27 +1,14 @@
-class element
+#include "Element.h"
+#include <iomanip>
+template<class T>
+class List
 {
-	void *pp;
-	element *next;
+protected:
+	Element<T> *first;
+	Element<T> *cur;
 public:
-	element(void *, element *);
-	~element();
+	List(Element<T> *);
 
-	element *getnext();
-	void setnext(element*);
-	void *getp();
-};
-
-///////////////////////////////////////////////////
-
-class list
-{
-	element *first;
-	element *cur;
-public:
-	list(element*);
-
-	void add(int, void *);
-	void del(void *);
-	element *getcur();
-	void setcur(element *);
+	void add(T);
+	void del(T);
 };
