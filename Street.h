@@ -1,5 +1,6 @@
-#include "House.h"
-#include "Container.h"
+// Copyright 2015 <Sergey Gudz>
+
+#pragma once
 
 class Street:public List<House>
 {
@@ -12,12 +13,12 @@ public:
 	~Street();
 
 	void add(const House&);
-	void del(int);
+	void del(const House&);
 	bool has(int);
 	void changeallstreet(int,bool);
 	const int getnumber();
 	const int getnuminhabitants();
-	House searchhouse(int);
+	House * searchhouse(int);
 
 	friend std::ostream & operator <<(std::ostream &,Street*);
 };

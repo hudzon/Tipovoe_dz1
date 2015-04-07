@@ -1,14 +1,15 @@
-#include "Street.h"
+// Copyright 2015 <Sergey Gudz>
 
-Street::Street() : List<House>(0)
+#include "1.h"
+
+Street::Street() : List<House>()
 {
 	number = 0;
 	houses_num = 0;
 	repair = false;
-	
 }
 
-Street::Street(int number, bool repair) :List<House>(0)
+Street::Street(int number, bool repair) :List<House>()
 {
 	this->number = number;
 	houses_num = 0;
@@ -30,6 +31,8 @@ const int Street::getnumber()
 
 const int Street::getnuminhabitants()
 {
+	cur = first->getnext();
+
 	int s = 0;
 	House *h;
 	
@@ -41,74 +44,64 @@ const int Street::getnuminhabitants()
 		cur=cur->getnext();
 	}
 
-	cur = first->getnext();
 	return s;
 }
 
 
-House Street::searchhouse(int i)
+House * Street::searchhouse(int i)
 {
-	House h(0, 0);
-
-	do
-	{
-		h = cur->getp();
-		cur = cur->getnext();
-	} while ((h.getnum() != i)&&(cur));
-
-	if (h.getnum()!=i)
-		std::cout << std::endl << number <<
-		" street doesn't have " << i << " house " << std::endl;
-
-	cur = first->getnext();
-	return h;
+	if (!has(i))
+		throw "Not found";
+	return &cur->getp();
 }
 
 void Street::add(const House& h)
 {
-	House h1(h);
-	if (!has(h1.getnum()))
-		List<House>::add(h);
-	else std::cout << h1.getnum() <<
-		" house wasn't added, because " << number << " street already has it" << std::endl;
+	if (has(h.getnum()))
+		throw "Already have";
+	
+	List<House>::add(h);
+	++houses_num;
 }
 
-void Street::del(int i)
+void Street::del(const House & h)
 {
-	if (has(i))
-		List<House>::del(searchhouse(i));
-	else std::cout << i <<
-		" house wasn't deleted, because " << number << " street doesn't have it" << std::endl;
+	if (!has(h.getnum()))
+		throw "Not have";
+
+	List<House>::del(h);
+	--houses_num;
 }
 
 bool Street::has(int i)
 {
-	House h(0, 0);
+	cur = first;
 
-	do
+	while ((cur) && (cur->getp().getnum() != i))
 	{
-		h = cur->getp();
 		cur = cur->getnext();
-	} while ((h.getnum() != i) && (cur));
-
-	cur = first->getnext();
-	if (h.getnum()==i)
-		return true;
-	else return false;
+	}
+	if (cur)
+	{
+		if (cur->getp().getnum() == i)
+			return true;
+	}
+	return false;
 }
 
 std::ostream & operator <<(std::ostream & osout, Street * str)
 {
+	str->cur = str->first->getnext();
+
 	osout << "Street " << str->number << " Houses num: " << str->houses_num << " Repair: ";
 	if(str->repair)
 		osout<< "true"<< std::endl;
 	else osout << "false" << std::endl;
 	while (str->cur)
 	{
-		osout << "     " << &str->cur->getp();
+		osout << "     " << str->cur->getp();
 		str->cur=str->cur->getnext();
 	}
 
-	str->cur = str->first->getnext();
 	return osout;
 }
