@@ -2,28 +2,27 @@
 
 #pragma once
 
-class House
-{
-	int number;
-	int level;
-	int inhabitant;
-	bool repair;
+class House {
+  int number;
+  int level;
+  int inhabitant;
+  bool repair;
 
-public:
-	House();
-	House(const House&);
-	House(int number, int level, int inhabitant, bool repair);
-	House(int number, int level);
-	~House();
+ public:
+  House();
+  House(const House&);
+  House(int number, int level, int inhabitant, bool repair);
+  House(int number, int level);
+  ~House();
 
-	void changeallhouse(int,int,bool);
-	void print();
-	const int getinhabitant();
-	void setinhabitant(int);
-	const int getnum()const;
-	void setnum(int);
+  void changeallhouse(int a, int b, bool c);
+  void print();
+  const int getinhabitant();
+  void setinhabitant(int inhabitant);
+  const int getnum()const;
+  void setnum(int number);
 
-	friend std::ostream & operator <<(std::ostream&,House);
-	House& operator =(House&);
-	bool operator ==(House&);
+  friend std::ostream & operator <<(std::ostream&, House);
+  House& operator =(const House&);
+  bool operator ==(const House&);
 };
