@@ -1,6 +1,6 @@
 // Copyright 2015 <Sergey Gudz>
 
-#include "main.h"
+#include "./main.h"
 
 House::House() {
   number = 0;

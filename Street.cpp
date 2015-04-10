@@ -1,6 +1,6 @@
 // Copyright 2015 <Sergey Gudz>
 
-#include "main.h"
+#include "./main.h"
 
 Street::Street() : List<House>() {
   number = 0;
@@ -30,14 +30,14 @@ const int Street::getnuminhabitants() {
 
   int s = 0;
   House *h;
-  
-  if (cur)
-  while (cur) {
-    h = &cur->getp();
-    s += h->getinhabitant();
-    cur=cur->getnext();
-  }
 
+  if (cur) {
+    while (cur) {
+      h = &cur->getp();
+      s += h->getinhabitant();
+      cur = cur->getnext();
+    }
+  }
   return s;
 }
 
@@ -51,7 +51,7 @@ House * Street::searchhouse(int i) {
 void Street::add(const House& h) {
   if (has(h.getnum()))
     throw "Already have";
-  
+
   List<House>::add(h);
   ++houses_num;
 }
@@ -80,13 +80,15 @@ bool Street::has(int i) {
 std::ostream & operator <<(std::ostream & osout, Street * str) {
   str->cur = str->first->getnext();
 
-  osout << "Street " << str->number << " Houses num: " << str->houses_num << " Repair: ";
-  if(str->repair)
+  osout << "Street " << str->number << " Houses num: " << str->houses_num
+        << " Repair: ";
+  if (str->repair)
     osout<< "true"<< std::endl;
-  else osout << "false" << std::endl;
+  else
+    osout << "false" << std::endl;
   while (str->cur) {
     osout << "     " << str->cur->getp();
-    str->cur=str->cur->getnext();
+    str->cur = str->cur->getnext();
   }
 
   return osout;

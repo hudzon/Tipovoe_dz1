@@ -6,18 +6,18 @@ class Street:public List<House> {
   int number;
   int houses_num;
   bool repair;
-public:
+ public:
   Street();
   Street(int, bool);
   ~Street();
 
   void add(const House&);
   void del(const House&);
-  bool has(int);
-  void changeallstreet(int,bool);
+  bool has(int a);
+  void changeallstreet(int, bool);
   const int getnumber();
   const int getnuminhabitants();
-  House * searchhouse(int);
+  House * searchhouse(int n);
 
-  friend std::ostream & operator <<(std::ostream &,Street*);
+  friend std::ostream & operator <<(std::ostream &, Street*);
 };
