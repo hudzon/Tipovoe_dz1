@@ -5,15 +5,15 @@
 template<class T>
 class Element {
   T pp;
-  Element *next;
+  Element* next;
  public:
   Element();
-  Element(T, Element *);
+  Element(T, Element*);
   ~Element();
 
-  Element *getnext();
-  void setnext(Element* a);
-  T & getp();
+  Element* get_next() const;
+  void set_next(Element* a);
+  T& get_p();
 };
 
 /////////////////////////////////
@@ -21,11 +21,11 @@ class Element {
 template<class T>
 class List {
  protected:
-  Element<T> *first;
-  Element<T> *cur;
+  Element<T>* first;
+  Element<T>* cur;
  public:
   List();
-  explicit List(Element<T> *);
+  explicit List(Element<T>*);
 
   void add(T);
   void del(T);

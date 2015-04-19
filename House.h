@@ -15,14 +15,21 @@ class House {
   House(int number, int level);
   ~House();
 
-  void changeallhouse(int a, int b, bool c);
+  void change_all_house(int a, int b, bool c);
   void print();
-  const int getinhabitant();
-  void setinhabitant(int inhabitant);
-  const int getnum()const;
-  void setnum(int number);
+  int get_inhabitant() const;
+  void set_inhabitant(int inhabitant);
 
-  friend std::ostream & operator <<(std::ostream&, House);
-  House& operator =(const House&);
-  bool operator ==(const House&);
+  int get_num() const;
+  void set_num(int number);
+
+  int get_level() const;
+  void set_level(int level);
+
+  bool get_repair() const;
+  void set_repair(bool repair);
+
+  friend std::ostream& operator <<(std::ostream&, House);
+  const House& operator =(const House&);
+  bool operator ==(const House&) const;
 };

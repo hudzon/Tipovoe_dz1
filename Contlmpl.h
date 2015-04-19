@@ -18,17 +18,17 @@ template<class T>
 Element<T>::~Element() {}
 
 template<class T>
-Element<T> * Element<T>::getnext() {
+Element<T> * Element<T>::get_next() const {
   return next;
 }
 
 template<class T>
-void Element<T>::setnext(Element *next) {
+void Element<T>::set_next(Element* next) {
   this->next = next;
 }
 
 template<class T>
-T & Element<T>::getp() {
+T& Element<T>::get_p() {
   return pp;
 }
 
@@ -41,7 +41,7 @@ List<T>::List() {
 }
 
 template<class T>
-List<T>::List(Element<T> *first) {
+List<T>::List(Element<T>* first) {
   this->first = first;
   cur = first;
 }
@@ -50,15 +50,15 @@ template<class T>
 void List<T>::add(T pp) {
   cur = first;
 
-  cur->setnext(new Element<T>(pp, cur->getnext()));
+  cur->set_next(new Element<T>(pp, cur->get_next()));
 }
 
 template<class T>
 void List<T>::del(T el) {
-  cur = first->getnext();
+  cur = first;
 
-  while (!(cur->getnext()->getp() == el)) {
-    cur = cur->getnext();
+  while (!(cur->get_next()->get_p() == el)) {
+    cur = cur->get_next();
   }
-  cur->setnext(cur->getnext()->getnext());
+  cur->set_next(cur->get_next()->get_next());
 }

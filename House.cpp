@@ -9,7 +9,7 @@ House::House() {
   repair = 0;
 }
 
-House::House(const House &h) {
+House::House(const House& h) {
   number = h.number;
   level = h.level;
   inhabitant = h.inhabitant;
@@ -30,9 +30,10 @@ House::House(int number, int level) {
   repair = false;
 }
 
-House::~House() {}
+House::~House() {
+}
 
-void House::changeallhouse(int number, int inhabitant, bool repair) {
+void House::change_all_house(int number, int inhabitant, bool repair) {
   this->number = number;
   this->inhabitant = inhabitant;
   this->repair = repair;
@@ -43,23 +44,39 @@ void House::print() {
   << inhabitant << " inhabitants, repair - " << repair << std::endl;
 }
 
-const int House::getinhabitant() {
+int House::get_inhabitant() const {
   return inhabitant;
 }
 
-void House::setinhabitant(int inhabitant) {
+void House::set_inhabitant(int inhabitant) {
   this->inhabitant = inhabitant;
 }
 
-const int House::getnum()const {
+int House::get_num()const {
   return number;
 }
 
-void House::setnum(int number) {
+void House::set_num(int number) {
   this->number = number;
 }
 
-std::ostream & operator <<(std::ostream & osout, House h) {
+int House::get_level()const {
+  return level;
+}
+
+void House::set_level(int level) {
+  this->level = level;
+}
+
+bool House::get_repair()const {
+  return repair;
+}
+
+void House::set_repair(bool repair) {
+  this->repair = repair;
+}
+
+std::ostream& operator <<(std::ostream& osout, House h) {
   osout << "Home " << h.number << ", " << h.level << " levels, "
     << h.inhabitant << " inhabitants, repair - ";
   if (h.repair)
@@ -70,8 +87,8 @@ std::ostream & operator <<(std::ostream & osout, House h) {
   return osout;
 }
 
-House & House::operator =(const House & h) {
-  if (!(*this == h)) {
+const House& House::operator =(const House& h) {
+  if (this != &h) {
     number = h.number;
     level = h.level;
     inhabitant = h.inhabitant;
@@ -81,12 +98,9 @@ House & House::operator =(const House & h) {
   return *this;
 }
 
-bool House::operator ==(const House & h) {
-  if ((number == h.number) &&
+bool House::operator ==(const House& h) const {
+  return ((number == h.number) &&
     (level == h.level) &&
     (inhabitant == h.inhabitant) &&
-    (repair == h.repair))
-    return true;
-  else
-  return false;
+    (repair == h.repair));
 }
