@@ -27,8 +27,9 @@ Street::Street(const Street& str) :List<House>() {
 }
 
 Street::~Street() {
+  if (first !=cur)
+    delete cur;
   delete first;
-  delete cur;
 }
 
 void Street::change_all_street(int number, bool repair) {
@@ -151,18 +152,18 @@ bool Street::operator ==(const Street& str) const {
   (repair == str.repair));
 }
 
-std::ostream& operator <<(std::ostream& osout, Street* str) {
-  str->cur = str->first->get_next();
+std::ostream& operator <<(std::ostream& osout, Street str) {
+  str.cur = str.first->get_next();
 
-  osout << "Street " << str->number << " Houses num: " << str->houses_num
+  osout << "Street " << str.number << " Houses num: " << str.houses_num
         << " Repair: ";
-  if (str->repair)
+  if (str.repair)
     osout<< "true"<< std::endl;
   else
     osout << "false" << std::endl;
-  while (str->cur) {
-    osout << "     " << str->cur->get_p();
-    str->cur = str->cur->get_next();
+  while (str.cur) {
+    osout << "     " << str.cur->get_p();
+    str.cur = str.cur->get_next();
   }
 
   return osout;

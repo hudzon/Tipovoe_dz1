@@ -28,5 +28,5 @@ class Street:public List<House> {
 
   const Street& operator =(const Street&);
   bool operator ==(const Street&) const;
-  friend std::ostream& operator <<(std::ostream&, Street*);
+  friend std::ostream& operator <<(std::ostream&, Street);
 };
