@@ -8,7 +8,7 @@ class ExNotFound : public std::exception {
     this->msg = msg;
   }
 
-  const char* what() const {
+  const char* what() const throw() {
     return msg;
   }
 
@@ -22,7 +22,7 @@ class ExAlreadyHave : public std::exception {
     this->msg = msg;
   }
 
-  const char* what() const {
+  const char* what() const throw() {
     return msg;
   }
 
@@ -36,7 +36,7 @@ class ExNotHave : public std::exception {
     this->msg = msg;
   }
 
-  const char* what() const {
+  const char* what() const throw() {
     return msg;
   }
 
