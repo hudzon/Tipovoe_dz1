@@ -16,8 +16,8 @@ class Street:public List<House> {
   void add(const House&);
   void del(const House&);
   void del_in_order(int i);
-  bool has(int a);
-  House& search_house(int n);
+  bool has(int i)const;
+  House& search_house(int i)const;
   void change_all_street(std::string, bool);
   int get_num_inhabitants() const;
   std::string get_name() const;

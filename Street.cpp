@@ -68,10 +68,16 @@ int Street::get_num_inhabitants() const {
   return s;
 }
 
-House& Street::search_house(int i) {
+House& Street::search_house(int i)const {
   if (!has(i))
     throw ExNotFound(i);
-  return cur->get_p();
+
+  Element<House>* curr = first;
+
+  while ((curr) && (curr->get_p().get_num() != i))
+    curr = curr->get_next();
+
+  return curr->get_p();
 }
 
 void Street::add(const House& h) {
@@ -101,14 +107,14 @@ void Street::del_in_order(int i) {
   List<House>::del(cur->get_p());
 }
 
-bool Street::has(int i) {
-  cur = first;
+bool Street::has(int i)const {
+  Element<House>* curr = first;
 
-  while ((cur) && (cur->get_p().get_num() != i)) {
-    cur = cur->get_next();
+  while ((curr) && (curr->get_p().get_num() != i)) {
+    curr = curr->get_next();
   }
-  if (cur) {
-    if (cur->get_p().get_num() == i)
+  if (curr) {
+    if (curr->get_p().get_num() == i)
       return true;
   }
 
