@@ -1,21 +1,22 @@
 // Copyright 2015 <Sergey Gudz>
 
+#include <string>
 #include "./main.h"
 
 Street::Street() : List<House>() {
-  number = 0;
+  name = "Ordinary Street";
   houses_num = 0;
   repair = false;
 }
 
-Street::Street(int number, bool repair) :List<House>() {
-  this->number = number;
+Street::Street(std::string name, bool repair) :List<House>() {
+  this->name = name;
   houses_num = 0;
   this->repair = repair;
 }
 
 Street::Street(const Street& str) :List<House>() {
-  number = str.number;
+  name = str.name;
   houses_num = 0;
   repair = str.repair;
 
@@ -27,22 +28,19 @@ Street::Street(const Street& str) :List<House>() {
 }
 
 Street::~Street() {
-  if (first !=cur)
-    delete cur;
-  delete first;
 }
 
-void Street::change_all_street(int number, bool repair) {
-  this->number = number;
+void Street::change_all_street(std::string name, bool repair) {
+  this->name = name;
   this->repair = repair;
 }
 
-int Street::get_number() const {
-  return number;
+std::string Street::get_name() const {
+  return name;
 }
 
-void Street::set_number(int number) {
-  this->number = number;
+void Street::set_name(std::string name) {
+  this->name = name;
 }
 
 bool Street::get_repair() const {
@@ -72,37 +70,35 @@ int Street::get_num_inhabitants() const {
 
 House& Street::search_house(int i) {
   if (!has(i))
-    throw ExNotFound("Not found");
+    throw ExNotFound(i);
   return cur->get_p();
 }
 
 void Street::add(const House& h) {
   if (has(h.get_num()))
-    throw ExAlreadyHave("Already have");
+    throw ExAlreadyHave(h);
 
   List<House>::add(h);
-  ++houses_num;
 }
 
 void Street::del(const House& h) {
   if (!has(h.get_num()))
-    throw ExNotHave("Not have");
+    throw ExNotHave(h);
 
   List<House>::del(h);
-  --houses_num;
 }
 
 void Street::del_in_order(int i) {
   if (i > houses_num)
-    throw ExNotHave("Not have");
+    throw ExNotHaveTwo(i);
+
 
   cur = first;
 
-  for (int j=0; j < i-1; ++j)
+  for (int j=0; j < i; ++j)
     cur = cur->get_next();
-  cur->set_next(cur->get_next()->get_next());
 
-  --houses_num;
+  List<House>::del(cur->get_p());
 }
 
 bool Street::has(int i) {
@@ -121,15 +117,11 @@ bool Street::has(int i) {
 
 const Street& Street::operator =(const Street& str) {
   if (this != &str) {
-    number = str.number;
+    name = str.name;
     houses_num = 0;
     repair = str.repair;
 
-    Element<House>* curr = str.first->get_next();
-    while (curr) {
-      add(curr->get_p());
-      curr = curr->get_next();
-    }
+    List<House>::operator =(str);
   }
 
   return *this;
@@ -147,7 +139,7 @@ bool Street::operator ==(const Street& str) const {
     curr2 = curr2->get_next();
   }
 
-  return ((number == str.number) &&
+  return ((name == str.name) &&
   (houses_num == str.houses_num) &&
   (repair == str.repair));
 }
@@ -155,7 +147,7 @@ bool Street::operator ==(const Street& str) const {
 std::ostream& operator <<(std::ostream& osout, Street str) {
   str.cur = str.first->get_next();
 
-  osout << "Street " << str.number << " Houses num: " << str.houses_num
+  osout << "Street " << str.name << " Houses num: " << str.houses_num
         << " Repair: ";
   if (str.repair)
     osout<< "true"<< std::endl;

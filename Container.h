@@ -23,10 +23,16 @@ class List {
  protected:
   Element<T>* first;
   Element<T>* cur;
+  int houses_num;
  public:
   List();
   explicit List(Element<T>*);
+  ~List();
 
   void add(T);
   void del(T);
+
+  int get_houses_num();
+
+  const List<T>& operator =(const List<T>&);
 };

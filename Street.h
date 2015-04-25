@@ -1,15 +1,15 @@
 // Copyright 2015 <Sergey Gudz>
 
 #pragma once
+#include <string>
 
 class Street:public List<House> {
-  int number;
-  int houses_num;
+  std::string name;
   bool repair;
 
  public:
   Street();
-  Street(int, bool);
+  Street(std::string, bool);
   Street(const Street&);
   ~Street();
 
@@ -18,10 +18,10 @@ class Street:public List<House> {
   void del_in_order(int i);
   bool has(int a);
   House& search_house(int n);
-  void change_all_street(int, bool);
+  void change_all_street(std::string, bool);
   int get_num_inhabitants() const;
-  int get_number() const;
-  void set_number(int num);
+  std::string get_name() const;
+  void set_name(std::string num);
 
   bool get_repair() const;
   void set_repair(bool repair);
