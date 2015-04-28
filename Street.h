@@ -16,10 +16,12 @@ class Street:public List<House> {
   void add(const House&);
   void del(const House&);
   void del_in_order(int i);
-  bool has(int i)const;
-  House& search_house(int i)const;
+  bool has(const House&) const;
+  House& find(const House&) const;
+
   void change_all_street(std::string, bool);
   int get_num_inhabitants() const;
+
   std::string get_name() const;
   void set_name(std::string num);
 

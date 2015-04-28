@@ -5,26 +5,19 @@
 
 Street::Street() : List<House>() {
   name = "Ordinary Street";
-  houses_num = 0;
   repair = false;
 }
 
 Street::Street(std::string name, bool repair) :List<House>() {
   this->name = name;
-  houses_num = 0;
   this->repair = repair;
 }
 
 Street::Street(const Street& str) :List<House>() {
   name = str.name;
-  houses_num = 0;
   repair = str.repair;
 
-  Element<House>* curr = str.first->get_next();
-  while (curr) {
-    add(curr->get_p());
-    curr = curr->get_next();
-  }
+  List<House>::operator =(str);
 }
 
 Street::~Street() {
@@ -53,7 +46,7 @@ void Street::set_repair(bool repair) {
 
 int Street::get_num_inhabitants() const {
   Element<House> *cur;
-  cur = first->get_next();
+  cur = get_first()->get_next();
 
   int s = 0;
   House *h;
@@ -68,63 +61,41 @@ int Street::get_num_inhabitants() const {
   return s;
 }
 
-House& Street::search_house(int i)const {
-  if (!has(i))
-    throw ExNotFound(i);
+House& Street::find(const House& h) const {
+  if (!has(h))
+    throw ExNotFound(h);
 
-  Element<House>* curr = first;
-
-  while ((curr) && (curr->get_p().get_num() != i))
-    curr = curr->get_next();
-
-  return curr->get_p();
+  return List<House>::find(h);
 }
 
 void Street::add(const House& h) {
-  if (has(h.get_num()))
+  if (has(h))
     throw ExAlreadyHave(h);
 
   List<House>::add(h);
 }
 
 void Street::del(const House& h) {
-  if (!has(h.get_num()))
+  if (!has(h))
     throw ExNotHave(h);
 
   List<House>::del(h);
 }
 
 void Street::del_in_order(int i) {
-  if (i > houses_num)
+  if (i > get_num())
     throw ExNotHaveTwo(i);
 
-
-  cur = first;
-
-  for (int j=0; j < i; ++j)
-    cur = cur->get_next();
-
-  List<House>::del(cur->get_p());
+  List<House>::del(List<House>::find_i(i));
 }
 
-bool Street::has(int i)const {
-  Element<House>* curr = first;
-
-  while ((curr) && (curr->get_p().get_num() != i)) {
-    curr = curr->get_next();
-  }
-  if (curr) {
-    if (curr->get_p().get_num() == i)
-      return true;
-  }
-
-  return false;
+bool Street::has(const House& h) const {
+  return List<House>::has(h);
 }
 
 const Street& Street::operator =(const Street& str) {
   if (this != &str) {
     name = str.name;
-    houses_num = 0;
     repair = str.repair;
 
     List<House>::operator =(str);
@@ -134,34 +105,22 @@ const Street& Street::operator =(const Street& str) {
 }
 
 bool Street::operator ==(const Street& str) const {
-  Element<House>* curr = str.first;
-  Element<House>* curr2 = first;
-
-  while (curr) {
-    if (!(curr->get_p() == curr2->get_p()))
-      return false;
-
-    curr = curr->get_next();
-    curr2 = curr2->get_next();
-  }
-
-  return ((name == str.name) &&
-  (houses_num == str.houses_num) &&
-  (repair == str.repair));
+  return ((name == str.name) && (repair == str.repair) &&
+         (List<House>::operator == (str)));
 }
 
 std::ostream& operator <<(std::ostream& osout, Street str) {
-  str.cur = str.first->get_next();
+  Element<House>* cur = str.get_first()->get_next();
 
-  osout << "Street " << str.name << " Houses num: " << str.houses_num
+  osout << "Street " << str.name << " Houses num: " << str.get_num()
         << " Repair: ";
   if (str.repair)
-    osout<< "true"<< std::endl;
+    osout<< "true"<< "\n";
   else
-    osout << "false" << std::endl;
-  while (str.cur) {
-    osout << "     " << str.cur->get_p();
-    str.cur = str.cur->get_next();
+    osout << "false" << "\n";
+  while (cur) {
+    osout << "     " << cur->get_p();
+    cur = cur->get_next();
   }
 
   return osout;

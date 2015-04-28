@@ -37,17 +37,19 @@ T& Element<T>::get_p() {
 template<class T>
 List<T>::List() {
   first = new Element<T>;
-  cur = first;
+  num = 0;
 }
 
 template<class T>
 List<T>::List(Element<T>* first) {
   this->first = first;
-  cur = first;
+  num = 0;
 }
 
 template<class T>
 List<T>::~List() {
+  Element<T>* cur;
+
   while (first) {
     cur = first->get_next();
     delete first;
@@ -56,24 +58,29 @@ List<T>::~List() {
 }
 
 template<class T>
-int List<T>::get_houses_num() {
-  return houses_num;
+int List<T>::get_num() const {
+  return num;
 }
 
 template<class T>
-void List<T>::add(T pp) {
-  cur = first;
+Element<T>* List<T>:: get_first() const {
+  return first;
+}
+
+template<class T>
+void List<T>::add(const T& pp) {
+  Element<T>* cur = first;
   while (cur->get_next())
     cur = cur->get_next();
 
   cur->set_next(new Element<T>(pp, 0));
-  ++houses_num;
+  ++num;
 }
 
 template<class T>
-void List<T>::del(T el) {
+void List<T>::del(const T& el) {
   Element<T> *buf;
-  cur = first;
+  Element<T>* cur = first;
 
   while (!(cur->get_next()->get_p() == el)) {
     cur = cur->get_next();
@@ -81,27 +88,80 @@ void List<T>::del(T el) {
   buf = cur->get_next();
   cur->set_next(cur->get_next()->get_next());
 
-  --houses_num;
+  --num;
 
   delete buf;
 }
 
 template<class T>
+bool List<T>::has(const T& el) const {
+  Element<T>* cur = first;
+
+  while ((cur) && (!(cur->get_p() == el))) {
+    cur = cur->get_next();
+  }
+  if (cur) {
+    if (cur->get_p() == el)
+      return true;
+  }
+
+  return false;
+}
+
+template<class T>
+T& List<T>::find(const T& el) const {
+  Element<T>* cur = first;
+
+  while ((cur) && (!(cur->get_p() == el)))
+    cur = cur->get_next();
+
+  return cur->get_p();
+}
+
+template<class T>
+T& List<T>::find_i(int i) const {
+  Element<House>* cur = first;
+
+  for (int j = 0; j < i; ++j)
+    cur = cur->get_next();
+
+  return cur->get_p();
+}
+
+template<class T>
+bool List<T>::operator ==(const List<T>& list) const {
+  Element<T>* cur = first;
+  Element<T>* cur2 = list.first;
+
+  while (cur) {
+    if (!(cur->get_p() == cur2->get_p()))
+      return false;
+
+    cur = cur->get_next();
+    cur2 = cur2->get_next();
+  }
+
+  return true;
+}
+
+template<class T>
 const List<T>& List<T>::operator =(const List<T>& list) {
   if (this != &list) {
+    Element<T>* cur;
+
     while (first) {
       cur = first->get_next();
       delete first;
       first = cur;
     }
     first = new Element<T>();
-    Element<T>* curr = list.first->get_next();
-    while (curr) {
-      add(curr->get_p());
-      curr = curr->get_next();
+
+    cur = list.first->get_next();
+    while (cur) {
+      add(cur->get_p());
+      cur = cur->get_next();
     }
   }
 
   return *this;
 }
-

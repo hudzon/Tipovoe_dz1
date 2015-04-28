@@ -16,15 +16,16 @@ int main() {
     str[1] = str[0];
     str[2] =  Street(str[1]);
     str[2].set_name("Tverskaya");
+
     for (int i = 0; i < 3; ++i)
-      std::cout << str[i] << std::endl;
+      std::cout << str[i] << "\n";
     std::cout << "Number of voters " << str[0].get_name()
           << " Street: " << str[0].get_num_inhabitants();
 
-    std::cout << std::endl << "After" << std::endl;
+    std::cout << "\n" << "After" << "\n";
 
     str[0].change_all_street("bkubkub", false);
-    str[0].search_house(4).change_all_house(4, 123, false);
+    str[0].find(House(4, 3, 42, true)).change_all_house(4, 123, false);
 
     str[1].del_in_order(4);
     str[1].del(House(3, 2, 33, true));
@@ -32,7 +33,7 @@ int main() {
     str[2].del(House(3, 2, 33, true));
 
     for (int i = 0; i < 3; ++i)
-      std::cout << str[i] << std::endl;
+      std::cout << str[i] << "\n";
 
     std::cout << "Number of voters " << str[0].get_name()
           << " Street: " << str[0].get_num_inhabitants();
@@ -41,5 +42,7 @@ int main() {
   }
   catch (const std::exception& ex) {
     std::cout << "\n" << ex.what() << "\n";
+
+    return 0;
   }
 }

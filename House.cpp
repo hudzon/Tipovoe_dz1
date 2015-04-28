@@ -41,7 +41,7 @@ void House::change_all_house(int number, int inhabitant, bool repair) {
 
 void House::print() {
   std::cout << "Home " << number << " ,"
-  << inhabitant << " inhabitants, repair - " << repair << std::endl;
+  << inhabitant << " inhabitants, repair - " << repair << "\n";
 }
 
 int House::get_inhabitant() const {
@@ -80,9 +80,9 @@ std::ostream& operator <<(std::ostream& osout, House h) {
   osout << "Home " << h.number << ", " << h.level << " levels, "
     << h.inhabitant << " inhabitants, repair - ";
   if (h.repair)
-    osout << "true" << std::endl;
+    osout << "true" << "\n";
   else
-  osout << "false" << std::endl;
+  osout << "false" << "\n";
 
   return osout;
 }
