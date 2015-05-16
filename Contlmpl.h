@@ -79,7 +79,10 @@ void List<T>::add(const T& pp) {
 
 template<class T>
 void List<T>::del(const T& el) {
-  Element<T> *buf;
+  if (!has(el))
+    throw ExListDel<T>(el);
+
+  Element<T>* buf;
   Element<T>* cur = first;
 
   while (!(cur->get_next()->get_p() == el)) {
@@ -110,6 +113,9 @@ bool List<T>::has(const T& el) const {
 
 template<class T>
 T& List<T>::find(const T& el) const {
+  if (!has(el))
+    throw ExListFind<T>(el);
+
   Element<T>* cur = first;
 
   while ((cur) && (!(cur->get_p() == el)))
@@ -120,6 +126,9 @@ T& List<T>::find(const T& el) const {
 
 template<class T>
 T& List<T>::find_i(int i) const {
+  if (i > num)
+    throw ExListFindI(i);
+
   Element<House>* cur = first;
 
   for (int j = 0; j < i; ++j)

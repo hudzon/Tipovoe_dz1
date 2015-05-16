@@ -42,3 +42,13 @@ class ExNotHaveTwo : public std::exception {
  private:
   std::string msg;
 };
+
+class ExListFindI : public std::exception {
+ public:
+  explicit ExListFindI(int i);
+
+  const char* what() const throw();
+
+ private:
+  std::string msg;
+};

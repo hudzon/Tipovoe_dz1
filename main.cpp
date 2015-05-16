@@ -37,12 +37,10 @@ int main() {
 
     std::cout << "Number of voters " << str[0].get_name()
           << " Street: " << str[0].get_num_inhabitants();
-
-    return 0;
   }
   catch (const std::exception& ex) {
     std::cout << "\n" << ex.what() << "\n";
-
-    return 0;
   }
+
+  return 0;
 }

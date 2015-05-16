@@ -70,3 +70,14 @@ ExNotHaveTwo::ExNotHaveTwo(int i) {
 const char* ExNotHaveTwo::what() const throw() {
   return msg.c_str();
 }
+
+/////////////////////////////
+
+ExListFindI::ExListFindI(int i) {
+  msg = "This container have less elements than ";
+  msg += std::to_string(i);
+}
+
+const char* ExListFindI::what() const throw() {
+  return msg.c_str();
+}
